@@ -9,7 +9,7 @@ void main() {
 	float NdotL;
     
 	newNormal = normalize(gl_NormalMatrix * normal);
-	lightDir = normalize(vec3(gl_LightSource[0].position));
+	lightDir = normalize(vec3(gl_LightSource[0].position - position));
 	NdotL = max(dot(newNormal, lightDir), 0.0);
 	diffuse = gl_FrontMaterial.diffuse * gl_LightSource[0].diffuse;
     

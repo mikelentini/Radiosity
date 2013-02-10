@@ -34,7 +34,7 @@ objLoader *objData = new objLoader();
 float ambColor[] = { 0.5f, 0.5f, 0.5f };
 float diffColor[] = { 0.75f, 0.75f, 0.75f };
 float specColor[] = { 1.0f, 1.0f, 1.0f };
-float lightPosition[] = { -2.5f, 2.2f, 2.9f };
+float lightPosition[] = { -2.6f, 4.0f, -1.0f };
 
 int numVerts = 0;
 int numNormals = 0;
@@ -142,6 +142,11 @@ void display() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
     glUseProgram(0);
+    
+    glPushMatrix();
+    glTranslatef(lightPosition[0], lightPosition[1], lightPosition[2]);
+    glutWireCube(0.25f);
+    glPopMatrix();
     
     glutSwapBuffers();
     glutPostRedisplay();
