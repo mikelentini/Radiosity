@@ -18,7 +18,7 @@
 
 using namespace std;
 
-const float WINDOW_WIDTH = 800.0f;
+const float WINDOW_WIDTH = 600.0f;
 const float WINDOW_HEIGHT = 600.0f;
 
 GLuint vbo, normalVbo;
@@ -26,7 +26,7 @@ GLuint shaderProgram;
 
 string strVertexShader("vertex.vs");
 string strFragmentShader("fragment.fs");
-char *OBJ_FILE = "chev.obj";
+char *OBJ_FILE = "cornell-and-friends2.obj";
 
 ShaderLoader *shaderLoader = new ShaderLoader();
 objLoader *objData = new objLoader();
@@ -34,7 +34,7 @@ objLoader *objData = new objLoader();
 float ambColor[] = { 0.5f, 0.5f, 0.5f };
 float diffColor[] = { 0.75f, 0.75f, 0.75f };
 float specColor[] = { 1.0f, 1.0f, 1.0f };
-float lightPosition[] = { -2.6f, 4.0f, -1.0f };
+float lightPosition[] = { -2.5f, 2.5f, 5.0f };
 
 int numVerts = 0;
 int numNormals = 0;
@@ -103,12 +103,12 @@ void setView(int w, int h) {
     glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(65, (float) w / (float) h, 0.5f, 100);
+    gluPerspective(50, (float) w / (float) h, 0.5f, 100);
     
 	glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(-2.5f, 2.1f, 2.9f,        // eye
-              -2.65f, 2.1f, -1.0f,       // center
+    gluLookAt(-2.5f, 2.5f, 5.0f,        // eye
+              -2.5f, 2.5f, -1.0f,       // center
               0.0f, 1.0f, 0.0f);        // up
 }
 
@@ -135,25 +135,25 @@ void display() {
     glEnableVertexAttribArray(attrib);
     glVertexAttribPointer(attrib, 4, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 7, (const GLvoid*)(sizeof(GL_FLOAT) * 4));
     
+    glPushMatrix();
+    glRotatef(-90, 1, 0, 0);
     glDrawArrays(GL_QUADS, 0, numVerts);
     //glDrawArrays(GL_POINTS, 0, numVerts);
+    glPopMatrix();
     
     glDisableVertexAttribArray(attrib);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
     glUseProgram(0);
     
-    glPushMatrix();
-    glTranslatef(lightPosition[0], lightPosition[1], lightPosition[2]);
-    glutWireCube(0.25f);
-    glPopMatrix();
-    
     glutSwapBuffers();
     glutPostRedisplay();
 }
 
 void init() {
-    glEnable(GL_DEPTH_TEST | GL_LIGHTING | GL_TEXTURE_2D);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_CULL_FACE);
     
     glLightfv(GL_LIGHT0, GL_AMBIENT, ambColor);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, diffColor);
@@ -162,7 +162,6 @@ void init() {
 	glEnable(GL_LIGHT0);
     
     glEnableClientState(GL_VERTEX_ARRAY);
-    glEnable(GL_CULL_FACE);
     
     objData->load(OBJ_FILE);
     

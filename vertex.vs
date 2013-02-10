@@ -16,6 +16,7 @@ void main() {
 	ambient = gl_FrontMaterial.ambient * gl_LightSource[0].ambient;
 	globalAmbient = gl_LightModel.ambient * gl_FrontMaterial.ambient;
 	gl_FrontColor =  NdotL * diffuse + globalAmbient + ambient;
+    gl_BackColor = gl_FrontColor;
     
 	gl_Position = gl_ModelViewProjectionMatrix * position;
 }
