@@ -13,7 +13,6 @@ void main() {
 	NdotL = max(dot(newNormal, lightDir), 0.0);
 	diffuse = gl_FrontMaterial.diffuse * gl_LightSource[0].diffuse;
     
-	/* Compute the ambient and globalAmbient terms */
 	ambient = gl_FrontMaterial.ambient * gl_LightSource[0].ambient;
 	globalAmbient = gl_LightModel.ambient * gl_FrontMaterial.ambient;
 	gl_FrontColor =  NdotL * diffuse + globalAmbient + ambient;

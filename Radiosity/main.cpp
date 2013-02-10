@@ -103,12 +103,12 @@ void setView(int w, int h) {
     glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(70, (float) w / (float) h, 0.5f, 100);
+    gluPerspective(65, (float) w / (float) h, 0.5f, 100);
     
 	glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(-2.5f, 2.2f, 2.9f,        // eye
-              -2.6f, 2.2f, -1.0f,       // center
+    gluLookAt(-2.5f, 2.1f, 2.9f,        // eye
+              -2.65f, 2.1f, -1.0f,       // center
               0.0f, 1.0f, 0.0f);        // up
 }
 
