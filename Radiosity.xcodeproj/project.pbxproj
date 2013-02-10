@@ -1,0 +1,284 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CD49537D16ADBD05008CB334 /* ShaderLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD49537816ADBD05008CB334 /* ShaderLoader.cpp */; };
+		CD49538316ADBD21008CB334 /* cornell-and-friends2.mtl in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD49537F16ADBD19008CB334 /* cornell-and-friends2.mtl */; };
+		CD49538416ADBD21008CB334 /* cornell-and-friends2.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD49538016ADBD19008CB334 /* cornell-and-friends2.obj */; };
+		CD49538516ADBD21008CB334 /* fragment.fs in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD49538116ADBD19008CB334 /* fragment.fs */; };
+		CD49538616ADBD21008CB334 /* vertex.vs in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD49538216ADBD19008CB334 /* vertex.vs */; };
+		CD8558DE16A5F31D0079DDCA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD8558DD16A5F31D0079DDCA /* main.cpp */; };
+		CD8558E016A5F31D0079DDCA /* Radiosity.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD8558DF16A5F31D0079DDCA /* Radiosity.1 */; };
+		CD8558E716A5F3320079DDCA /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD8558E616A5F3320079DDCA /* GLUT.framework */; };
+		CD8558E916A5F3370079DDCA /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD8558E816A5F3370079DDCA /* OpenGL.framework */; };
+		CDFE3AFD16C75864004474BD /* chev.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = CDFE3AFC16C7585E004474BD /* chev.obj */; };
+		CDFE3B0616C7610D004474BD /* list.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDFE3AFE16C7610C004474BD /* list.cpp */; };
+		CDFE3B0716C7610D004474BD /* obj_parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDFE3B0016C7610C004474BD /* obj_parser.cpp */; };
+		CDFE3B0816C7610D004474BD /* objLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDFE3B0216C7610C004474BD /* objLoader.cpp */; };
+		CDFE3B0916C7610D004474BD /* string_extra.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDFE3B0416C7610C004474BD /* string_extra.cpp */; };
+		CDFE3B0B16C77644004474BD /* cornell_box.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = CDFE3B0A16C77640004474BD /* cornell_box.obj */; };
+		CDFE3B0D16C7768C004474BD /* cornell_box.mtl in CopyFiles */ = {isa = PBXBuildFile; fileRef = CDFE3B0C16C77688004474BD /* cornell_box.mtl */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CD8558D716A5F31D0079DDCA /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				CDFE3B0D16C7768C004474BD /* cornell_box.mtl in CopyFiles */,
+				CDFE3B0B16C77644004474BD /* cornell_box.obj in CopyFiles */,
+				CDFE3AFD16C75864004474BD /* chev.obj in CopyFiles */,
+				CD49538316ADBD21008CB334 /* cornell-and-friends2.mtl in CopyFiles */,
+				CD49538416ADBD21008CB334 /* cornell-and-friends2.obj in CopyFiles */,
+				CD49538516ADBD21008CB334 /* fragment.fs in CopyFiles */,
+				CD49538616ADBD21008CB334 /* vertex.vs in CopyFiles */,
+				CD8558E016A5F31D0079DDCA /* Radiosity.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		CD49537816ADBD05008CB334 /* ShaderLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderLoader.cpp; sourceTree = "<group>"; };
+		CD49537916ADBD05008CB334 /* ShaderLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderLoader.h; sourceTree = "<group>"; };
+		CD49537A16ADBD05008CB334 /* vecmath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vecmath.h; sourceTree = "<group>"; };
+		CD49537F16ADBD19008CB334 /* cornell-and-friends2.mtl */ = {isa = PBXFileReference; lastKnownFileType = text; path = "cornell-and-friends2.mtl"; sourceTree = "<group>"; };
+		CD49538016ADBD19008CB334 /* cornell-and-friends2.obj */ = {isa = PBXFileReference; lastKnownFileType = text; path = "cornell-and-friends2.obj"; sourceTree = "<group>"; };
+		CD49538116ADBD19008CB334 /* fragment.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = fragment.fs; sourceTree = "<group>"; };
+		CD49538216ADBD19008CB334 /* vertex.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = vertex.vs; sourceTree = "<group>"; };
+		CD8558D916A5F31D0079DDCA /* Radiosity */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Radiosity; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD8558DD16A5F31D0079DDCA /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		CD8558DF16A5F31D0079DDCA /* Radiosity.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Radiosity.1; sourceTree = "<group>"; };
+		CD8558E616A5F3320079DDCA /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		CD8558E816A5F3370079DDCA /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		CDFE3AFC16C7585E004474BD /* chev.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = chev.obj; sourceTree = "<group>"; };
+		CDFE3AFE16C7610C004474BD /* list.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = list.cpp; sourceTree = "<group>"; };
+		CDFE3AFF16C7610C004474BD /* list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = list.h; sourceTree = "<group>"; };
+		CDFE3B0016C7610C004474BD /* obj_parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = obj_parser.cpp; sourceTree = "<group>"; };
+		CDFE3B0116C7610C004474BD /* obj_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = obj_parser.h; sourceTree = "<group>"; };
+		CDFE3B0216C7610C004474BD /* objLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = objLoader.cpp; sourceTree = "<group>"; };
+		CDFE3B0316C7610C004474BD /* objLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = objLoader.h; sourceTree = "<group>"; };
+		CDFE3B0416C7610C004474BD /* string_extra.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = string_extra.cpp; sourceTree = "<group>"; };
+		CDFE3B0516C7610C004474BD /* string_extra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = string_extra.h; sourceTree = "<group>"; };
+		CDFE3B0A16C77640004474BD /* cornell_box.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cornell_box.obj; sourceTree = "<group>"; };
+		CDFE3B0C16C77688004474BD /* cornell_box.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cornell_box.mtl; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CD8558D616A5F31D0079DDCA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD8558E916A5F3370079DDCA /* OpenGL.framework in Frameworks */,
+				CD8558E716A5F3320079DDCA /* GLUT.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CD8558CE16A5F31D0079DDCA = {
+			isa = PBXGroup;
+			children = (
+				CDFE3B0C16C77688004474BD /* cornell_box.mtl */,
+				CDFE3B0A16C77640004474BD /* cornell_box.obj */,
+				CDFE3AFC16C7585E004474BD /* chev.obj */,
+				CD49537F16ADBD19008CB334 /* cornell-and-friends2.mtl */,
+				CD49538016ADBD19008CB334 /* cornell-and-friends2.obj */,
+				CD49538116ADBD19008CB334 /* fragment.fs */,
+				CD49538216ADBD19008CB334 /* vertex.vs */,
+				CD8558E816A5F3370079DDCA /* OpenGL.framework */,
+				CD8558E616A5F3320079DDCA /* GLUT.framework */,
+				CD8558DC16A5F31D0079DDCA /* Radiosity */,
+				CD8558DA16A5F31D0079DDCA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CD8558DA16A5F31D0079DDCA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CD8558D916A5F31D0079DDCA /* Radiosity */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CD8558DC16A5F31D0079DDCA /* Radiosity */ = {
+			isa = PBXGroup;
+			children = (
+				CD49537816ADBD05008CB334 /* ShaderLoader.cpp */,
+				CD49537916ADBD05008CB334 /* ShaderLoader.h */,
+				CDFE3AFE16C7610C004474BD /* list.cpp */,
+				CDFE3AFF16C7610C004474BD /* list.h */,
+				CDFE3B0016C7610C004474BD /* obj_parser.cpp */,
+				CDFE3B0116C7610C004474BD /* obj_parser.h */,
+				CDFE3B0216C7610C004474BD /* objLoader.cpp */,
+				CDFE3B0316C7610C004474BD /* objLoader.h */,
+				CDFE3B0416C7610C004474BD /* string_extra.cpp */,
+				CDFE3B0516C7610C004474BD /* string_extra.h */,
+				CD49537A16ADBD05008CB334 /* vecmath.h */,
+				CD8558DD16A5F31D0079DDCA /* main.cpp */,
+				CD8558DF16A5F31D0079DDCA /* Radiosity.1 */,
+			);
+			path = Radiosity;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CD8558D816A5F31D0079DDCA /* Radiosity */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CD8558E316A5F31D0079DDCA /* Build configuration list for PBXNativeTarget "Radiosity" */;
+			buildPhases = (
+				CD8558D516A5F31D0079DDCA /* Sources */,
+				CD8558D616A5F31D0079DDCA /* Frameworks */,
+				CD8558D716A5F31D0079DDCA /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Radiosity;
+			productName = Radiosity;
+			productReference = CD8558D916A5F31D0079DDCA /* Radiosity */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CD8558D016A5F31D0079DDCA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Mike Lentini";
+			};
+			buildConfigurationList = CD8558D316A5F31D0079DDCA /* Build configuration list for PBXProject "Radiosity" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = CD8558CE16A5F31D0079DDCA;
+			productRefGroup = CD8558DA16A5F31D0079DDCA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CD8558D816A5F31D0079DDCA /* Radiosity */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CD8558D516A5F31D0079DDCA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD8558DE16A5F31D0079DDCA /* main.cpp in Sources */,
+				CD49537D16ADBD05008CB334 /* ShaderLoader.cpp in Sources */,
+				CDFE3B0616C7610D004474BD /* list.cpp in Sources */,
+				CDFE3B0716C7610D004474BD /* obj_parser.cpp in Sources */,
+				CDFE3B0816C7610D004474BD /* objLoader.cpp in Sources */,
+				CDFE3B0916C7610D004474BD /* string_extra.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		CD8558E116A5F31D0079DDCA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		CD8558E216A5F31D0079DDCA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		CD8558E416A5F31D0079DDCA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		CD8558E516A5F31D0079DDCA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CD8558D316A5F31D0079DDCA /* Build configuration list for PBXProject "Radiosity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD8558E116A5F31D0079DDCA /* Debug */,
+				CD8558E216A5F31D0079DDCA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CD8558E316A5F31D0079DDCA /* Build configuration list for PBXNativeTarget "Radiosity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD8558E416A5F31D0079DDCA /* Debug */,
+				CD8558E516A5F31D0079DDCA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CD8558D016A5F31D0079DDCA /* Project object */;
+}
