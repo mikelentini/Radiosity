@@ -13,6 +13,7 @@
 #include <GLUT/glut.h>
 #include <vector>
 #include <string>
+#include "vecmath.h"
 #include "objLoader.h"
 #include "ShaderLoader.h"
 
@@ -37,37 +38,151 @@ float specColor[] = { 1.0f, 1.0f, 1.0f };
 float lightPosition[] = { -2.5f, 2.5f, 5.0f };
 
 int numVerts = 0;
-int numNormals = 0;
 
 //float *vertArray;
 vector<float> *vertices;
 vector<float> *normals;
-vector<float> *all;
+vector<double*> *ambs;
+vector<double*> *diffs;
+vector<double*> *specs;
+vector<double> *Nss;
+vector<double> *transs;
+vector<double> *Nis;
+
+Vector3 black(0.0f, 0.0f, 0.0f);
+Vector3 white(1.0f, 1.0f, 1.0f);
+
+struct Patch {
+    Vector3 excident;
+    Vector3 incident;
+    float reflectance;
+    float emission;
+    
+    Vector3 normal;
+    Vector3 color;
+    Vector3 verts[4];
+};
+
+vector<Patch> *patches;
+vector<Patch> *prevPatches;
+int MAX_PASSES = 1;
 
 void initializeVertexBuffer() {
     vertices = new vector<float>();
     normals = new vector<float>();
-    all = new vector<float>();
+    ambs = new vector<double*>();
+    diffs = new vector<double*>();
+    specs = new vector<double*>();
+    Nss = new vector<double>();
+    transs = new vector<double>();
+    Nis = new vector<double>();
+    
+    prevPatches = new vector<Patch>();
+    patches = new vector<Patch>();
+    
     glGenBuffers(1, &vbo);
     
     for(int i = 0; i < objData->faceCount; i++)	{
 		obj_face *face = objData->faceList[i];
+        int materialIndex = face->material_index;
+        double *amb = objData->materialList[materialIndex]->amb;
+        double *diff = objData->materialList[materialIndex]->diff;
+        double *spec = objData->materialList[materialIndex]->spec;
+        double Ns = objData->materialList[materialIndex]->shiny;
+        double trans = objData->materialList[materialIndex]->trans;
+        double Ni = objData->materialList[materialIndex]->refract_index;
+        
+        obj_vector *vert1 = objData->vertexList[face->vertex_index[0]];
+        obj_vector *vert2 = objData->vertexList[face->vertex_index[1]];
+        obj_vector *vert3 = objData->vertexList[face->vertex_index[2]];
+        obj_vector *vert4 = objData->vertexList[face->vertex_index[3]];
+        
+        // add face as a patch to the patches and prevPatches vectors
+        Patch patch;
+        if (strcmp(objData->materialList[materialIndex]->name, "light") == 0) {
+            patch = {
+                Vector3(white),
+                Vector3(white),
+                (float) Ns,
+                1.0f,
+                Vector3(objData->normalList[face->normal_index[0]]->e[0],
+                        objData->normalList[face->normal_index[0]]->e[1],
+                        objData->normalList[face->normal_index[0]]->e[1]),
+                Vector3(amb[0], amb[1], amb[2]),
+                {
+                    Vector3(vert1->e[0], vert1->e[1], vert1->e[2]),
+                    Vector3(vert2->e[0], vert2->e[1], vert2->e[2]),
+                    Vector3(vert3->e[0], vert3->e[1], vert3->e[2]),
+                    Vector3(vert4->e[0], vert4->e[1], vert4->e[2])
+                }
+            };
+        } else {
+            patch = {
+                Vector3(black),
+                Vector3(black),
+                (float) Ns,
+                1.0f,
+                Vector3(objData->normalList[face->normal_index[0]]->e[0],
+                        objData->normalList[face->normal_index[0]]->e[1],
+                        objData->normalList[face->normal_index[0]]->e[1]),
+                Vector3(amb[0], amb[1], amb[2]),
+                {
+                    Vector3(vert1->e[0], vert1->e[1], vert1->e[2]),
+                    Vector3(vert2->e[0], vert2->e[1], vert2->e[2]),
+                    Vector3(vert3->e[0], vert3->e[1], vert3->e[2]),
+                    Vector3(vert4->e[0], vert4->e[1], vert4->e[2])
+                }
+            };
+        }
+        
+        patches->push_back(patch);
+        prevPatches->push_back(patch);
         
 		for(int j = 0; j < face->vertex_count; j++) {
-            for (int k = 0; k < 3; k++) {
-                double vert = objData->vertexList[face->vertex_index[j]]->e[k];
-                double normal = objData->normalList[face->normal_index[j]]->e[k];
-                vertices->push_back(vert);
-                normals->push_back(normal);
-            }
+            obj_vector *vert = objData->vertexList[face->vertex_index[j]];
+            obj_vector *normal = objData->normalList[face->normal_index[j]];
             
+            vertices->push_back(vert->e[0]);
+            vertices->push_back(vert->e[1]);
+            vertices->push_back(vert->e[2]);
             vertices->push_back(1.0f);
+            
+            normals->push_back(normal->e[0]);
+            normals->push_back(normal->e[1]);
+            normals->push_back(normal->e[2]);
+            
+            ambs->push_back(amb);
+            diffs->push_back(diff);
+            specs->push_back(spec);
+            Nss->push_back(Ns);
+            transs->push_back(trans);
+            Nis->push_back(Ni);
 		}
 	}
     
-    float vertArray[vertices->size() + normals->size()];
+    // do patch things
+    for (int pass = 0; pass < MAX_PASSES; pass++) {
+        for (int i = 0; i < patches->size(); i++) {
+            Patch patch = patches->at(i);
+            
+            //render the scene from the point of view of this patch
+            //patch.incident = sum of incident light in rendering
+            //patch.excident = (patch.incident * patch.reflectance) + patch.emission
+        }
+    }
     
-    for (int i = 0, j = 0, k = 0; i < vertices->size() + normals->size(); i += 7, j += 4, k += 3) {
+    long arraySize = vertices->size() + normals->size() + (ambs->size() * 3) + (diffs->size() * 3) +
+        (specs->size() * 3) + Nss->size() + transs->size() + Nis->size();
+    float vertArray[arraySize];
+    
+    /* { 1.0, 1.0, 1.0, 1.0     <- vert position
+     *   1.0, 1.0, 1.0          <- normal
+     *   1.0, 1.0, 1.0          <- amb
+     *   1.0, 1.0, 1.0          <- diff
+     *   1.0, 1.0, 1.0      	<- spec
+     *   1.0, 1.0, 1.0 }        <- Ns, trans, Ni
+     */
+    for (int i = 0, j = 0, k = 0, l = 0; i < arraySize; i += 19, j += 4, k += 3, l++) {
         vertArray[i] = vertices->at(j);
         vertArray[i + 1] = vertices->at(j + 1);
         vertArray[i + 2] = vertices->at(j + 2);
@@ -76,16 +191,38 @@ void initializeVertexBuffer() {
         vertArray[i + 4] = normals->at(k);
         vertArray[i + 5] = normals->at(k + 1);
         vertArray[i + 6] = normals->at(k + 2);
+        
+        vertArray[i + 7] = ambs->at(l)[0];
+        vertArray[i + 8] = ambs->at(l)[1];
+        vertArray[i + 9] = ambs->at(l)[2];
+        
+        vertArray[i + 10] = diffs->at(l)[0];
+        vertArray[i + 11] = diffs->at(l)[1];
+        vertArray[i + 12] = diffs->at(l)[2];
+        
+        vertArray[i + 13] = specs->at(l)[0];
+        vertArray[i + 14] = specs->at(l)[1];
+        vertArray[i + 15] = specs->at(l)[2];
+        
+        vertArray[i + 16] = Nss->at(l);
+        vertArray[i + 17] = transs->at(l);
+        vertArray[i + 18] = Nis->at(l);
     }
     
     numVerts = (int) vertices->size() / 4;
-    numNormals = (int) normals->size() / 3;
     
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertArray), vertArray, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
     delete vertices;
+    delete normals;
+    delete ambs;
+    delete specs;
+    delete diffs;
+    delete transs;
+    delete Nis;
+    delete Nss;
 }
 
 void initializeProgram() {
@@ -129,11 +266,35 @@ void display() {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     attrib = glGetAttribLocation(shaderProgram, "position");
     glEnableVertexAttribArray(attrib);
-    glVertexAttribPointer(attrib, 4, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 7, 0);
+    glVertexAttribPointer(attrib, 4, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 19, 0);
     
     attrib = glGetAttribLocation(shaderProgram, "normal");
     glEnableVertexAttribArray(attrib);
-    glVertexAttribPointer(attrib, 4, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 7, (const GLvoid*)(sizeof(GL_FLOAT) * 4));
+    glVertexAttribPointer(attrib, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 19, (const GLvoid*)(sizeof(GL_FLOAT) * 4));
+    
+    attrib = glGetAttribLocation(shaderProgram, "amb");
+    glEnableVertexAttribArray(attrib);
+    glVertexAttribPointer(attrib, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 19, (const GLvoid*)(sizeof(GL_FLOAT) * 7));
+    
+    attrib = glGetAttribLocation(shaderProgram, "diff");
+    glEnableVertexAttribArray(attrib);
+    glVertexAttribPointer(attrib, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 19, (const GLvoid*)(sizeof(GL_FLOAT) * 10));
+    
+    attrib = glGetAttribLocation(shaderProgram, "spec");
+    glEnableVertexAttribArray(attrib);
+    glVertexAttribPointer(attrib, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 19, (const GLvoid*)(sizeof(GL_FLOAT) * 13));
+    
+    attrib = glGetAttribLocation(shaderProgram, "Ns");
+    glEnableVertexAttribArray(attrib);
+    glVertexAttribPointer(attrib, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 19, (const GLvoid*)(sizeof(GL_FLOAT) * 16));
+    
+    attrib = glGetAttribLocation(shaderProgram, "trans");
+    glEnableVertexAttribArray(attrib);
+    glVertexAttribPointer(attrib, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 19, (const GLvoid*)(sizeof(GL_FLOAT) * 17));
+    
+    attrib = glGetAttribLocation(shaderProgram, "Ni");
+    glEnableVertexAttribArray(attrib);
+    glVertexAttribPointer(attrib, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 19, (const GLvoid*)(sizeof(GL_FLOAT) * 18));
     
     glPushMatrix();
     glRotatef(-90, 1, 0, 0);
@@ -147,19 +308,17 @@ void display() {
     glUseProgram(0);
     
     glutSwapBuffers();
-    glutPostRedisplay();
+    //glutPostRedisplay();
 }
 
 void init() {
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_LIGHTING);
     glEnable(GL_CULL_FACE);
     
     glLightfv(GL_LIGHT0, GL_AMBIENT, ambColor);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, diffColor);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, specColor);
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
-	glEnable(GL_LIGHT0);
     
     glEnableClientState(GL_VERTEX_ARRAY);
     
