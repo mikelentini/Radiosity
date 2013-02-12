@@ -276,7 +276,7 @@ void setView(int w, int h) {
     glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(50, (float) w / (float) h, 0.5f, 100);
+    gluPerspective(50, (float) w / (float) h, 0.5f, 10);
     
 	glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -325,9 +325,7 @@ void display() {
     
     if (render) {
         // do patch things
-        //for (int pass = 0; pass < MAX_PASSES; pass++) {
         if (pass < MAX_PASSES) {
-            //for (int i = 0; i < patches->size(); i++) {
             if (patchIndex < patches->size()) {
                 Patch *patch = &patches->at(patchIndex);
                 
@@ -338,7 +336,7 @@ void display() {
                 
                 glMatrixMode(GL_PROJECTION);
                 glLoadIdentity();
-                gluPerspective(90, (float) glutGet(GLUT_WINDOW_WIDTH) / (float) glutGet(GLUT_WINDOW_HEIGHT), 0.1f, 100);
+                gluPerspective(160, (float) glutGet(GLUT_WINDOW_WIDTH) / (float) glutGet(GLUT_WINDOW_HEIGHT), 0.1f, 10);
                 
                 glMatrixMode(GL_MODELVIEW);
                 glLoadIdentity();
