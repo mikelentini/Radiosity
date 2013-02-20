@@ -22,13 +22,14 @@ using namespace std;
 
 const float WINDOW_WIDTH = 600.0f;
 const float WINDOW_HEIGHT = 600.0f;
+int MAX_PASSES = 5;
+char *OBJ_FILE = "cornell-and-friends2.obj";
 
 GLuint vbo, normalVbo;
 GLuint shaderProgram;
 
 string strVertexShader("vertex.vs");
 string strFragmentShader("fragment.fs");
-char *OBJ_FILE = "cornell-and-friends2.obj";
 
 ShaderLoader *shaderLoader = new ShaderLoader();
 objLoader *objData = new objLoader();
@@ -62,7 +63,6 @@ struct Patch {
 
 vector<Patch> *patches;
 vector<Patch> *prevPatches;
-int MAX_PASSES = 10;
 
 char *trimWhitespace(char *str) {
     char *end;
@@ -96,7 +96,7 @@ void initializeVertexBuffer() {
 		obj_face *face = objData->faceList[i];
         int materialIndex = face->material_index;
         double *diff = objData->materialList[materialIndex]->diff;
-        double Ns = objData->materialList[materialIndex]->shiny / 200.0;
+        double Ns = objData->materialList[materialIndex]->shiny / 100.0;
         
         obj_vector *vert1 = objData->vertexList[face->vertex_index[0]];
         obj_vector *vert2 = objData->vertexList[face->vertex_index[1]];
@@ -118,7 +118,7 @@ void initializeVertexBuffer() {
                 (float) Ns,
                 1.0f,
                 Vector3(diff[0], diff[1], diff[2]),
-                Vector3(1.0f, 1.0f, 1.0f), 
+                Vector3(white),
                 {
                     Vector3(vert1->e[0], vert1->e[1], vert1->e[2]),
                     Vector3(vert2->e[0], vert2->e[1], vert2->e[2]),
@@ -137,9 +137,9 @@ void initializeVertexBuffer() {
                 Vector3(black),
                 Vector3(black),
                 (float) Ns,
-                0.2f,
+                0.5f,
                 Vector3(diff[0], diff[1], diff[2]),
-                Vector3(0.0f, 0.0f, 0.0f),
+                Vector3(black),
                 {
                     Vector3(vert1->e[0], vert1->e[1], vert1->e[2]),
                     Vector3(vert2->e[0], vert2->e[1], vert2->e[2]),
@@ -276,7 +276,7 @@ void setView(int w, int h) {
     glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(50, (float) w / (float) h, 0.5f, 10);
+    gluPerspective(50, (float) w / (float) h, 0.5f, 20);
     
 	glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -303,9 +303,7 @@ void renderScene() {
     glEnableVertexAttribArray(attrib);
     glVertexAttribPointer(attrib, 3, GL_FLOAT, GL_FALSE, sizeof(GL_FLOAT) * 7, (const GLvoid*)(sizeof(GL_FLOAT) * 4));
     
-    //glPushMatrix();
     glDrawArrays(GL_QUADS, 0, numVerts);
-    //glPopMatrix();
     
     glDisableVertexAttribArray(attrib);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -336,7 +334,7 @@ void display() {
                 
                 glMatrixMode(GL_PROJECTION);
                 glLoadIdentity();
-                gluPerspective(160, (float) glutGet(GLUT_WINDOW_WIDTH) / (float) glutGet(GLUT_WINDOW_HEIGHT), 0.1f, 10);
+                gluPerspective(120, (float) glutGet(GLUT_WINDOW_WIDTH) / (float) glutGet(GLUT_WINDOW_HEIGHT), 0.1f, 20);
                 
                 glMatrixMode(GL_MODELVIEW);
                 glLoadIdentity();
@@ -347,11 +345,14 @@ void display() {
                 renderScene();
                 
                 int colorValues = WINDOW_WIDTH * WINDOW_HEIGHT * 3;
-                float *pixelsNormalized = new float[colorValues];
-                glReadPixels(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_RGB, GL_FLOAT, pixelsNormalized);
                 
                 float *pixels = new float[colorValues];
                 glReadPixels(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_RGB, GL_FLOAT, pixels);
+                
+                float *pixelsNormalized = new float[colorValues];
+                for (int i = 0; i < colorValues; i++) {
+                    pixelsNormalized[i] = pixels[i];
+                }
                 
                 Vector3 sum(0, 0, 0);
                 for (int i = 0; i < colorValues; i += 3) {
@@ -360,16 +361,15 @@ void display() {
                 
                 Vector3 total(0, 0, 0);
                 for (int i = 0; i < colorValues; i += 3) {
-                    pixelsNormalized[i] = pixels[i] == 0 ? 0 : pixels[i] / sum.x;
-                    pixelsNormalized[i + 1] = pixels[i + 1] == 0 ? 0 : pixels[i + 1] / sum.y;
-                    pixelsNormalized[i + 2] = pixels[i + 2] == 0 ? 0 : pixels[i + 2] / sum.z;
+                    pixelsNormalized[i] = pixels[i] / sum.x;
+                    pixelsNormalized[i + 1] = pixels[i + 1] / sum.y;
+                    pixelsNormalized[i + 2] = pixels[i + 2] / sum.z;
                     
                     pixels[i] *= pixelsNormalized[i];
                     pixels[i + 1] *= pixelsNormalized[i + 1];
                     pixels[i + 2] *= pixelsNormalized[i + 2];
                     
-                    Vector3 c(pixels[i], pixels[i + 1], pixels[i + 2]);
-                    total += c;
+                    total += Vector3(pixels[i], pixels[i + 1], pixels[i + 2]);;
                 }
                 
                 delete pixels;
@@ -400,7 +400,7 @@ void display() {
                 initializeVertexBuffer(true);
             }
         } else if (pass == MAX_PASSES) {
-            cout << "radiosity done" << endl;
+            cout << "radiositizing done" << endl;
             render = false;
             initializeVertexBuffer(true);
         }
@@ -414,7 +414,7 @@ void display() {
 
 void init() {
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE);
     
     glLightfv(GL_LIGHT0, GL_AMBIENT, ambColor);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, diffColor);
